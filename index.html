@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>online code editor</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+      }
+      .left-part {
+        width: 50%;
+        height: 100vh;
+        flex-basis: 50%;
+        display: flex;
+        flex-direction: column;
+      }
+      .content {
+        flex-basis: 33.33%;
+      }
+
+      .left-part .content textarea {
+        width: 100%;
+        padding: 30px 0;
+        height: calc(82% - 20px);
+        outline: none;
+        border: none;
+        background: black;
+        color: white;
+      }
+      .left-part .content label {
+        display: block;
+        background: black;
+        color: white;
+        padding: 10px 0;
+      }
+
+      .right-part {
+        flex-basis: 50%;
+        margin-left: 2px;
+      }
+      .right-part iframe {
+        display: block;
+        border: none;
+        width: 100%;
+        height: 92%;
+      }
+      .right-part label {
+        display: block;
+        background: black;
+        color: white;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left-part">
+      <div class="content">
+        <label>HTML </label>
+        <textarea></textarea>
+      </div>
+      <div class="content">
+        <label>CSS</label>
+        <textarea></textarea>
+      </div>
+      <div class="content">
+        <label>JAVASCRIPT</label>
+        <textarea></textarea>
+      </div>
+    </div>
+    <div class="right-part">
+      <label> OUTPUT</label>
+      <iframe id="output"></iframe>
+    </div>
+
+    <script>
+      let output = document.querySelector("#output");
+      let allInput = document.querySelectorAll(".left-part .content textarea");
+
+      let htmlCode = "",
+        cssCode = "",
+        jsCode = "";
+
+      allInput.forEach((el, index) => {
+        el.addEventListener("keyup", () => {
+          if (index === 0) {
+            htmlCode = el.value;
+          }
+          if (index === 1) {
+            cssCode = el.value;
+          }
+          if (index === 2) {
+            jsCode = el.value;
+          }
+          output.contentDocument.body.innerHTML = htmlCode;
+          output.contentDocument.head.innerHTML = `<style> ${cssCode} </style>`;
+          output.contentWindow.eval(jsCode);
+        });
+      });
+      //   output.contentDocument.body.innerHTML =
+      //     "<h1> welcome to online code editor</h1>";
+      //   output.contentDocument.head.innerHTML = "<style> h1{ color: red}</style>";
+      //   output.contentWindow.eval("let a=10; let b=20; alert(a+b);");
+    </script>
+  </body>
+</html>
